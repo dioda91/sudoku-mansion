@@ -176,3 +176,22 @@ html.dsh-mobile .dialog { width: min(94vw, 640px) !important; }
 html.dsh-mobile .dialog-body { font-size: 13px !important; }
 html.dsh-mobile .options-content { font-size: 13px !important; }
 html.dsh-mobile .options-tab { font-size: 12px !important; padding: .3rem .25rem !important; }
+
+/* ================= 单指拖动要跟手 ================= */
+/* 手势全部交回游戏自己处理（单指拖 = 平移，点击 = 选中），
+   这里只禁止浏览器抢手势、顺手关掉滚动回弹和长按选择。 */
+html.dsh-mobile .canvas-wrap,
+html.dsh-mobile .mansion-svg {
+  touch-action: none !important;
+  overscroll-behavior: contain !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+
+/* ================= 菜单 / 设置：直接用 zoom 强制缩小 ================= */
+/* 之前用 font-size 没压下去，因为游戏会给整个界面按根字号放大，
+   这里改用 zoom（会真的改变布局尺寸，压不住也得压住）。 */
+html.dsh-mobile .menu-overlay > * { zoom: .72; }
+html.dsh-mobile .dialog { zoom: .84; }
+html.dsh-mobile .dialog-backdrop > * { zoom: .84; }
