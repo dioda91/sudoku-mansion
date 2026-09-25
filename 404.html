@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>数独庄园</title>
+  <script>
+    // GitHub Pages 对未知路径返回 404；SPA 的深层链接（/room/xxx）刷新会走到这里。
+    // 直接送回首页，让游戏用存档里的进度自己恢复。
+    location.replace('./'.replace(/\/$/, '/') + (location.search || ''));
+  </script>
+</head>
+<body></body>
+</html>

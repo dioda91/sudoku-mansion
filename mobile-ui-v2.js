@@ -29,7 +29,11 @@
         var t = (btns[i].textContent || '') + ' ' + (btns[i].getAttribute('aria-label') || '') + ' ' + (btns[i].title || '');
         if (t.indexOf('背景故事') >= 0 || /lore/i.test(t)) { hit = btns[i]; break; }
       }
-      if (hit) hit.click();
+      if (hit) {
+        window.__dshIgnoreClick = true;
+        // bubbles:false：不要让它冒泡到 document，否则会被外面那层「点空白关闭」立刻关掉
+        hit.dispatchEvent(new MouseEvent('click', { bubbles: false, cancelable: true, view: window }));
+      }
     } catch (e) {}
   }
 
@@ -83,9 +87,12 @@
 
     // 点空白处关闭气泡；点气泡内部或按钮不关
     document.addEventListener('click', function (e) {
+      // 自己程序化点标签页会冒泡到这里，别把自己刚打开的气泡关掉
+      if (window.__dshIgnoreClick) { window.__dshIgnoreClick = false; return; }
       var t = e.target;
       if (!t || !t.closest) return;
       if (t.closest('#dsh-buttons')) return;
+      if (t.closest('app-right-panel > .tab-bar')) return;
       if (t.closest('app-left-column')) return;
       if (t.closest('app-right-panel > .tab-content')) return;
       if (!document.body.classList.contains('dsh-left') && !document.body.classList.contains('dsh-info')) return;
