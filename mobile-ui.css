@@ -1,163 +1,149 @@
-/* mobile-ui.css —— 手机布局（只在窄屏/触屏生效，桌面完全不受影响） */
-@media (max-width: 1200px), (max-height: 660px) {
-  :root { --dsh-right-w: 30vw; }
-
-  /* ================= 左栏：点击打开的气泡 ================= */
-  app-left-column {
-    position: fixed !important;
-    left: 8px !important;
-    top: 44px !important;
-    bottom: 52px !important;
-    width: min(86vw, 400px) !important;
-    height: auto !important;
-    z-index: 96 !important;
-    background: #0b1020fa !important;
-    border: 1px solid rgba(230,193,99,.42) !important;
-    border-radius: 12px !important;
-    box-shadow: 0 18px 50px -12px #000, 0 0 24px -12px #e6c16388 !important;
-    padding: 10px 12px !important;
-    overflow: auto !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    transform: translateX(-104%) !important;
-    transition: transform .18s ease, opacity .18s ease !important;
-  }
-  body.dsh-left app-left-column {
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    transform: none !important;
-  }
-
-  /* ================= 右栏：数字键盘占满整栏 ================= */
-  app-right-panel {
-    width: var(--dsh-right-w) !important;
-    min-width: 92px !important;
-    max-width: 210px !important;
-    padding: 4px 8px 8px 4px !important;
-    gap: 4px !important;
-  }
-  app-right-panel > .panel-title {
-    font-size: .78rem !important;
-    line-height: 1.1 !important;
-    margin: 2px 0 2px !important;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /* 原本的标签页(键盘/规则/故事/笔记)整块变成气泡，默认收起，不占地方 */
-  app-right-panel > *:has(> .tab-bar) {
-    position: fixed !important;
-    left: 50% !important;
-    top: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    width: min(90vw, 480px) !important;
-    max-height: 78vh !important;
-    overflow: auto !important;
-    z-index: 97 !important;
-    background: #0b1020fb !important;
-    border: 1px solid rgba(230,193,99,.42) !important;
-    border-radius: 12px !important;
-    box-shadow: 0 18px 50px -12px #000 !important;
-    padding: 10px 12px !important;
-    display: none !important;
-  }
-  body.dsh-info app-right-panel > *:has(> .tab-bar) { display: flex !important; }
-
-  /* 独立键盘铺满右栏 */
-  app-digit-pad {
-    display: flex !important;
-    flex: 1 1 auto !important;
-    min-height: 0 !important;
-    height: 100% !important;
-  }
-  app-digit-pad .controls {
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100% !important;
-    height: 100% !important;
-    flex: 1 1 auto !important;
-    margin: 0 !important;
-    padding: 6px !important;
-    gap: 6px !important;
-  }
-  app-digit-pad .digit-pad-col {
-    display: flex !important;
-    flex-direction: column !important;
-    flex: 1 1 auto !important;
-    min-height: 0 !important;
-    width: 100% !important;
-    gap: 6px !important;
-  }
-  app-digit-pad .digit-pad {
-    flex: 1 1 auto !important;
-    min-height: 0 !important;
-    width: 100% !important;
-    gap: 6px !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-  }
-  app-digit-pad .digit-pad .digit-btn {
-    width: 100% !important;
-    height: 100% !important;
-    min-height: 34px !important;
-    aspect-ratio: auto !important;
-    font-size: clamp(18px, 3.6vh, 32px) !important;
-  }
-  app-digit-pad .side-controls {
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100% !important;
-    gap: 6px !important;
-  }
-  app-digit-pad .undo-redo-row { width: 100% !important; gap: 6px !important; }
-  app-digit-pad .undo-redo-row .digit-btn {
-    flex: 1 1 0 !important;
-    aspect-ratio: 2 / 1 !important;
-    min-height: 28px !important;
-    font-size: .95rem !important;
-  }
-  app-digit-pad .mode-toggle, app-digit-pad .reset-controls {
-    display: flex !important;
-    flex-direction: row !important;
-    width: 100% !important;
-    gap: 6px !important;
-    flex: 0 0 auto !important;
-  }
-  app-digit-pad .mode-btn, app-digit-pad .reset-controls .digit-btn {
-    flex: 1 1 0 !important;
-    min-height: 28px !important;
-    aspect-ratio: 1 / 1 !important;
-  }
-
-  /* ================= 浮动按钮 ================= */
-  #dsh-buttons {
-    position: fixed !important;
-    left: 8px !important;
-    bottom: 8px !important;
-    z-index: 99 !important;
-    display: flex !important;
-    gap: 6px !important;
-  }
-  #dsh-buttons button {
-    background: #131a2ef2;
-    color: #e6c163;
-    border: 1px solid rgba(230,193,99,.5);
-    border-radius: 8px;
-    padding: 6px 10px;
-    font-size: 13px;
-    font-family: inherit;
-    cursor: pointer;
-  }
-  #dsh-buttons button.dsh-on { background: #e6c163; color: #131a2e; }
-
-  /* ================= 竖屏提示 ================= */
-  #dsh-rotate {
-    position: fixed; inset: 0; z-index: 200;
-    display: none; align-items: center; justify-content: center;
-    background: #070a12f2; text-align: center;
-  }
-  #dsh-rotate .box { padding: 24px; border: 1px solid rgba(230,193,99,.45); border-radius: 14px; background: #0b1020; }
-  #dsh-rotate p { color: #e0e0f0; font-size: 16px; margin: 0 0 14px; }
-  #dsh-rotate button { background: #e6c163; color: #131a2e; border: 0; border-radius: 8px; padding: 10px 16px; font-size: 15px; font-family: inherit; }
-  @media (orientation: portrait) { #dsh-rotate { display: flex; } }
+/* mobile-ui.css —— 手机布局。只有 html 上有 dsh-mobile 时才生效（?safe=1 可关闭） */
+html.dsh-mobile {
+  /* ---------- 核心：用 dvh，解决手机浏览器底栏把内容顶出屏幕的问题 ---------- */
+  height: 100dvh !important;
+  overflow: hidden !important;
 }
+html.dsh-mobile body {
+  height: 100dvh !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+/* ================= 左栏：点击打开的气泡 ================= */
+html.dsh-mobile app-left-column {
+  position: fixed !important;
+  left: 8px !important;
+  top: 44px !important;
+  bottom: 52px !important;
+  width: min(86vw, 400px) !important;
+  height: auto !important;
+  z-index: 96 !important;
+  background: #0b1020fa !important;
+  border: 1px solid rgba(230,193,99,.42) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 18px 50px -12px #000, 0 0 24px -12px #e6c16388 !important;
+  padding: 10px 12px !important;
+  overflow: auto !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateX(-104%) !important;
+  transition: transform .18s ease, opacity .18s ease !important;
+}
+html.dsh-mobile body.dsh-left app-left-column {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: none !important;
+}
+
+/* ================= 右栏：数字键盘占满整栏 ================= */
+html.dsh-mobile app-right-panel {
+  width: var(--dsh-right-w, 30vw) !important;
+  min-width: 92px !important;
+  max-width: 220px !important;
+  padding: 4px 8px 8px 4px !important;
+  gap: 4px !important;
+}
+html.dsh-mobile app-right-panel > .panel-title {
+  font-size: .78rem !important;
+  line-height: 1.1 !important;
+  margin: 2px 0 2px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* 标签页(键盘/规则/故事/笔记)整块变成气泡，默认收起 */
+html.dsh-mobile app-right-panel > *:has(> .tab-bar) {
+  position: fixed !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: min(90vw, 480px) !important;
+  max-height: min(78vh, 78dvh) !important;
+  overflow: auto !important;
+  z-index: 97 !important;
+  background: #0b1020fb !important;
+  border: 1px solid rgba(230,193,99,.42) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 18px 50px -12px #000 !important;
+  padding: 10px 12px !important;
+  display: none !important;
+}
+html.dsh-mobile body.dsh-info app-right-panel > *:has(> .tab-bar) { display: flex !important; }
+
+/* 独立键盘铺满右栏 */
+html.dsh-mobile app-digit-pad { display: flex !important; flex: 1 1 auto !important; min-height: 0 !important; height: 100% !important; }
+html.dsh-mobile app-digit-pad .controls {
+  display: flex !important; flex-direction: column !important;
+  width: 100% !important; height: 100% !important; flex: 1 1 auto !important;
+  margin: 0 !important; padding: 6px !important; gap: 6px !important;
+}
+html.dsh-mobile app-digit-pad .digit-pad-col {
+  display: flex !important; flex-direction: column !important;
+  flex: 1 1 auto !important; min-height: 0 !important; width: 100% !important; gap: 6px !important;
+}
+html.dsh-mobile app-digit-pad .digit-pad {
+  flex: 1 1 auto !important; min-height: 0 !important; width: 100% !important;
+  gap: 6px !important; grid-template-columns: repeat(3, 1fr) !important;
+}
+html.dsh-mobile app-digit-pad .digit-pad .digit-btn {
+  width: 100% !important; height: 100% !important; min-height: 34px !important;
+  aspect-ratio: auto !important; font-size: clamp(18px, 3.6vh, 32px) !important;
+}
+html.dsh-mobile app-digit-pad .side-controls {
+  display: flex !important; flex-direction: column !important; width: 100% !important; gap: 6px !important;
+}
+html.dsh-mobile app-digit-pad .undo-redo-row { width: 100% !important; gap: 6px !important; }
+html.dsh-mobile app-digit-pad .undo-redo-row .digit-btn {
+  flex: 1 1 0 !important; aspect-ratio: 2 / 1 !important; min-height: 28px !important; font-size: .95rem !important;
+}
+html.dsh-mobile app-digit-pad .mode-toggle,
+html.dsh-mobile app-digit-pad .reset-controls {
+  display: flex !important; flex-direction: row !important; width: 100% !important; gap: 6px !important; flex: 0 0 auto !important;
+}
+html.dsh-mobile app-digit-pad .mode-btn,
+html.dsh-mobile app-digit-pad .reset-controls .digit-btn {
+  flex: 1 1 0 !important; min-height: 28px !important; aspect-ratio: 1 / 1 !important;
+}
+
+/* ================= 首次设置向导：手机浏览器里 100vh 会导致底部按钮被切掉 ================= */
+html.dsh-mobile .wizard { padding: .5rem !important; }
+html.dsh-mobile .wizard__inner {
+  font-size: min(19.2px, min(100dvh, 54.770531401vw) * 19.2 / 907) !important;
+  gap: .7em !important;
+  max-height: 100% !important;
+  overflow-y: auto !important;
+}
+html.dsh-mobile .wizard__body { min-height: 0 !important; gap: .7em !important; }
+html.dsh-mobile .wizard__step { gap: .7em !important; }
+html.dsh-mobile .split__preview--square { height: 9em !important; }
+
+/* ================= 浮动按钮 ================= */
+html.dsh-mobile #dsh-buttons {
+  position: fixed !important; left: 8px !important; bottom: 8px !important;
+  z-index: 99 !important; display: flex !important; gap: 6px !important;
+}
+html.dsh-mobile #dsh-buttons button {
+  background: #131a2ef2; color: #e6c163;
+  border: 1px solid rgba(230,193,99,.5); border-radius: 8px;
+  padding: 6px 10px; font-size: 13px; font-family: inherit; cursor: pointer;
+}
+html.dsh-mobile #dsh-buttons button.dsh-on { background: #e6c163; color: #131a2e; }
+
+/* ================= 竖屏提示 ================= */
+html.dsh-mobile #dsh-rotate {
+  position: fixed; inset: 0; z-index: 300;
+  display: none; align-items: center; justify-content: center;
+  background: #070a12f2; text-align: center;
+}
+html.dsh-mobile #dsh-rotate .box { padding: 24px; border: 1px solid rgba(230,193,99,.45); border-radius: 14px; background: #0b1020; }
+html.dsh-mobile #dsh-rotate p { color: #e0e0f0; font-size: 16px; margin: 0 0 14px; }
+html.dsh-mobile #dsh-rotate button { background: #e6c163; color: #131a2e; border: 0; border-radius: 8px; padding: 10px 16px; font-size: 15px; font-family: inherit; }
+@media (orientation: portrait) { html.dsh-mobile #dsh-rotate { display: flex; } }
+/* 保险：万一向导比屏幕还高，让整个向导层可滚动，按钮永远够得到 */
+html.dsh-mobile .wizard {
+  align-items: flex-start !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+html.dsh-mobile .wizard__inner { margin: auto 0 !important; }
