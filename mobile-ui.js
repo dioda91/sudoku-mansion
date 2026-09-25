@@ -57,6 +57,25 @@
       bar.appendChild(b);
       return b;
     }
+    // 「回正」：庄园/房间视图拖过之后把视角复位（等价于按回车键，游戏里的居中快捷键）
+    var bCenter = el('button', '', '回正');
+    bCenter.type = 'button';
+    bCenter.style.display = 'none';
+    bCenter.addEventListener('click', function (e) {
+      e.preventDefault(); e.stopPropagation();
+      try {
+        var target = document.querySelector('.canvas-wrap') || document.querySelector('app-mansion') || document.activeElement || document.body;
+        ['keydown', 'keyup'].forEach(function (type) {
+          var ev = new KeyboardEvent(type, { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true, cancelable: true });
+          target.dispatchEvent(ev);
+        });
+      } catch (err) {}
+    });
+    bar.appendChild(bCenter);
+    setInterval(function () {
+      bCenter.style.display = document.querySelector('app-mansion') ? '' : 'none';
+    }, 700);
+
     bRules = mk('规则', 'dsh-left');
     bStory = mk('故事', 'dsh-info', selectLoreTab);
     mk('横屏', null, goLandscape);

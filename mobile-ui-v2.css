@@ -111,3 +111,29 @@ html.dsh-mobile #dsh-rotate .box { padding: 20px; border: 1px solid rgba(230,193
 html.dsh-mobile #dsh-rotate p { color: #e0e0f0; font-size: 16px; margin: 0 0 12px; }
 html.dsh-mobile #dsh-rotate button { background: #e6c163; color: #131a2e; border: 0; border-radius: 8px; padding: 10px 16px; font-size: 15px; font-family: inherit; }
 @media (orientation: portrait) { html.dsh-mobile #dsh-rotate { display: flex; } }
+/* ================= 选项 / 设置对话框 ================= */
+html.dsh-mobile .dialog {
+  width: min(96vw, 760px) !important;
+  max-height: calc(100dvh - 12px) !important;
+}
+html.dsh-mobile .dialog-header { padding: .5rem .7rem .4rem !important; }
+html.dsh-mobile .dialog-title { font-size: 1rem !important; }
+html.dsh-mobile .dialog-body { padding: .6rem .7rem !important; -webkit-overflow-scrolling: touch; }
+html.dsh-mobile .dialog-footer { padding: .4rem .7rem .6rem !important; }
+html.dsh-mobile .options-tabs { margin-bottom: .5rem !important; flex-wrap: wrap !important; gap: .15rem !important; }
+html.dsh-mobile .options-tab { font-size: .78rem !important; padding: .35rem .3rem !important; min-width: 0 !important; }
+html.dsh-mobile .options-display-grid,
+html.dsh-mobile .options-colors-grid,
+html.dsh-mobile .options-accessibility-extras {
+  grid-template-columns: 1fr !important; column-gap: 0 !important; row-gap: .8rem !important;
+}
+html.dsh-mobile .options-section,
+html.dsh-mobile .options-group { gap: .5rem !important; }
+html.dsh-mobile .dialog-backdrop { padding: .4rem !important; }
+html.dsh-mobile .dialog-backdrop .dialog { max-height: calc(100dvh - 12px) !important; }
+
+/* ================= 游戏内菜单 ================= */
+html.dsh-mobile .menu-overlay { padding: .6rem !important; }
+html.dsh-mobile .menu-panel,
+html.dsh-mobile .menu-items { width: 100% !important; max-width: min(94vw, 460px) !important; }
+html.dsh-mobile .menu-item { font-size: .95rem !important; padding: .5rem .6rem !important; }
