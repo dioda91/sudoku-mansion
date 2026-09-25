@@ -227,3 +227,28 @@ html.dsh-mobile .options-accessibility-extras {
 }
 html.dsh-mobile .menu-overlay,
 html.dsh-mobile .options-overlay { padding: 5px !important; }
+
+/* ================= 竖屏提示：改成不挡路的小胶囊 ================= */
+/* 打开就是横屏的正解是「添加到主屏幕」（manifest 里已写 orientation: landscape），
+   浏览器里只能给个小提示，不再用全屏遮罩挡住界面。 */
+html.dsh-mobile #dsh-rotate {
+  position: fixed !important;
+  left: 50% !important; bottom: 8px !important;
+  transform: translateX(-50%) !important;
+  inset: auto !important;
+  z-index: 300 !important;
+  display: none; align-items: center; gap: 8px;
+  background: #0b1020f2; border: 1px solid rgba(230,193,99,.5);
+  border-radius: 999px; padding: 5px 8px 5px 12px;
+  pointer-events: none;
+}
+html.dsh-mobile #dsh-rotate .box {
+  display: flex; align-items: center; gap: 8px;
+  padding: 0 !important; border: 0 !important; background: none !important;
+}
+html.dsh-mobile #dsh-rotate p { margin: 0 !important; font-size: 12px !important; color: #e0e0f0; }
+html.dsh-mobile #dsh-rotate button {
+  pointer-events: auto; font-size: 12px !important; padding: 4px 10px !important;
+  border-radius: 999px !important;
+}
+@media (orientation: portrait) { html.dsh-mobile #dsh-rotate { display: flex !important; } }

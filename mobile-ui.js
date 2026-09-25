@@ -14,7 +14,10 @@
   }
 
   function goLandscape() {
-    var p = root.requestFullscreen ? root.requestFullscreen() : Promise.reject(new Error('no fullscreen'));
+    // 已经装在主屏幕上（standalone）时不需要全屏，直接锁方向即可
+    var standalone = false;
+    try { standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; } catch (e) {}
+    var p = standalone ? Promise.resolve() : (root.requestFullscreen ? root.requestFullscreen() : Promise.reject(new Error('no fullscreen')));
     return Promise.resolve(p).then(function () {
       if (screen.orientation && typeof screen.orientation.lock === 'function') return screen.orientation.lock('landscape');
     }).catch(function () {});
