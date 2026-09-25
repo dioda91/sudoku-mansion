@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>数独庄园 · 存档备份</title>
+<style>
+  body{margin:0;padding:24px;background:#0f0f1a;color:#e0e0f0;font-family:"Microsoft YaHei UI","Microsoft YaHei",system-ui,sans-serif;line-height:1.7}
+  h1{font-size:20px;margin:0 0 4px}
+  p{color:#a9a9c8;margin:6px 0 18px}
+  .box{max-width:640px;margin:0 auto}
+  .card{background:#1a1a2e;border:1px solid #3a3a5c;border-radius:10px;padding:16px;margin-bottom:14px}
+  button{background:#e8a83b;color:#1a1a2e;border:0;border-radius:8px;padding:10px 18px;font-size:15px;font-weight:600;cursor:pointer;margin:4px 8px 4px 0}
+  button.ghost{background:#2a2a44;color:#e0e0f0;border:1px solid #3a3a5c}
+  button.danger{background:#e05555;color:#fff}
+  code{background:#242438;padding:2px 6px;border-radius:4px;color:#e6c163}
+  .kv{color:#8888aa}
+  #msg{margin-top:10px;color:#e6c163;min-height:22px}
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>存档备份</h1>
+  <p>游戏的存档保存在这个浏览器里（localStorage）。换手机、换浏览器、清缓存都会丢，所以建议定期导出。</p>
+
+  <div class="card">
+    <div><span class="kv">存储键：</span><code>sudoku-mansion-save</code></div>
+    <div><span class="kv">当前状态：</span><span id="state">检查中…</span></div>
+    <div><span class="kv">存档大小：</span><span id="size">-</span></div>
+    <div id="msg"></div>
+  </div>
+
+  <div class="card">
+    <button id="export">导出存档</button>
+    <button id="import" class="ghost">导入存档</button>
+    <button id="wipe" class="danger">清空存档</button>
+    <input id="file" type="file" accept=".json,application/json" style="display:none">
+    <div style="color:#8888aa;font-size:13px;margin-top:8px">
+      导入存档会覆盖当前进度，请先导出备份。清空存档不可恢复。
+    </div>
+  </div>
+
+  <p><a href="./" style="color:#e6c163">← 回到游戏</a></p>
+</div>
+
+<script>
+(function () {
+  var KEY = 'sudoku-mansion-save';
+  var stateEl = document.getElementById('state');
+  var sizeEl = document.getElementById('size');
+  var msg = document.getElementById('msg');
+
+  function refresh() {
+    var v = null;
+    try { v = localStorage.getItem(KEY); } catch (e) {}
+    if (!v) { stateEl.textContent = '暂无存档'; sizeEl.textContent = '-'; return null; }
+    stateEl.textContent = '已有存档';
+    sizeEl.textContent = (v.length / 1024).toFixed(1) + ' KB';
+    return v;
+  }
+
+  function say(t) { msg.textContent = t; }
+
+  document.getElementById('export').onclick = function () {
+    var v = refresh();
+    if (!v) { say('没有存档可以导出'); return; }
+    var d = new Date();
+    var stamp = d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0')
+      + '-' + String(d.getHours()).padStart(2, '0') + String(d.getMinutes()).padStart(2, '0');
+    var blob = new Blob([v], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'sudoku-mansion-save-' + stamp + '.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 3000);
+    say('已导出，去手机的下载目录里找');
+  };
+
+  var fileEl = document.getElementById('file');
+  document.getElementById('import').onclick = function () { fileEl.click(); };
+  fileEl.onchange = function () {
+    var f = fileEl.files && fileEl.files[0];
+    if (!f) return;
+    var r = new FileReader();
+    r.onload = function () {
+      var text = String(r.result);
+      try { JSON.parse(text); } catch (e) { say('这个文件不是有效存档'); return; }
+      try { localStorage.setItem(KEY, text); } catch (e) { say('写入失败：' + e.message); return; }
+      refresh(); say('导入完成，回到游戏刷新一下就生效');
+    };
+    r.readAsText(f);
+    fileEl.value = '';
+  };
+
+  document.getElementById('wipe').onclick = function () {
+    if (!confirm('确定清空当前存档吗？不可恢复。')) return;
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    refresh(); say('已清空');
+  };
+
+  refresh();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1656 907" preserveAspectRatio="none" fill="none">
+  <!--
+    Procedural stand-in for game-frame.png, shown when AI artwork is disabled.
+    Redraws the painted surround as gold line-art in the popups' frame colour
+    (#e6c163) the same crest and corner flourishes app-panel-frame wears, minus
+    the generated scenery. Coordinates are the artwork's own 1656x907 space, so
+    every rule lands on the room-shell frame fractions (top bar y=35 = 3.86%,
+    columns x=269 / x=1386 = 16.24% / 83.70%). Single hairlines only, so no line
+    doubles up against the panels' own edges. Stretched to fill via
+    background-size:100% 100%, exactly like the PNG.
+  -->
+  <defs>
+    <!-- Corner flourish: the exact glyph from app-panel-frame (authored top-left,
+         opening inward), reused at every corner via transforms. -->
+    <g id="fbCorner" stroke="#e6c163" stroke-linecap="round">
+      <path d="M3 22 L3 8 Q3 3 8 3 L22 3" stroke-width="1.3" />
+      <path d="M9 18 L9 11 Q9 9 11 9 L18 9" stroke-width="1" opacity="0.7" />
+      <circle cx="6.5" cy="6.5" r="1.4" fill="#e6c163" stroke="none" />
+    </g>
+
+    <!-- The quiet crest, straight from the popups. -->
+    <g id="fbCrest" fill="#e6c163">
+      <polygon points="8,11 50,10 50,12" />
+      <circle cx="53" cy="11" r="1.5" />
+      <path d="M66 3 L74 11 L66 19 L58 11 Z" fill="none" stroke="#e6c163" stroke-width="1.2" />
+      <circle cx="66" cy="11" r="2" />
+      <circle cx="79" cy="11" r="1.5" />
+      <polygon points="124,11 82,10 82,12" />
+    </g>
+
+    <filter id="fbGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#e6c163" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Outer border: a single hairline hugging the shell edge. -->
+  <rect x="4" y="4" width="1648" height="899" stroke="#e6c163" stroke-width="2" opacity="0.5" />
+
+  <!-- Full-width rule under the toolbar band. -->
+  <line x1="4" y1="35" x2="1652" y2="35" stroke="#e6c163" stroke-width="1.6" opacity="0.4" />
+
+  <!-- The two column dividers: they bound the play area and enclose each side
+       panel together with the outer border. -->
+  <line x1="269" y1="35" x2="269" y2="903" stroke="#e6c163" stroke-width="1.6" opacity="0.4" />
+  <line x1="1386" y1="35" x2="1386" y2="903" stroke="#e6c163" stroke-width="1.6" opacity="0.4" />
+
+  <!-- Outer corner flourishes. -->
+  <use href="#fbCorner" transform="translate(4,4) scale(1.3)" opacity="0.85" />
+  <use href="#fbCorner" transform="translate(1652,4) scale(-1.3,1.3)" opacity="0.85" />
+  <use href="#fbCorner" transform="translate(1652,903) scale(-1.3,-1.3)" opacity="0.85" />
+  <use href="#fbCorner" transform="translate(4,903) scale(1.3,-1.3)" opacity="0.85" />
+
+  <!-- Play-area corner flourishes, hugging the divider junctions so the side
+       panels read as framed. -->
+  <use href="#fbCorner" transform="translate(269,35) scale(1.3)" opacity="0.6" />
+  <use href="#fbCorner" transform="translate(1386,35) scale(-1.3,1.3)" opacity="0.6" />
+  <use href="#fbCorner" transform="translate(1386,903) scale(-1.3,-1.3)" opacity="0.6" />
+  <use href="#fbCorner" transform="translate(269,903) scale(1.3,-1.3)" opacity="0.6" />
+
+  <!-- Signature: the crest, lifted to sit centred in the top band above the rule. -->
+  <use href="#fbCrest" transform="translate(745.5,4.25) scale(1.25)" filter="url(#fbGlow)" />
+</svg>

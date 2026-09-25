@@ -1,0 +1,57 @@
+# Sudoku Mansion
+
+Thank you for playing!
+
+# Puzzles
+
+Tobias (Nurator) Schnier
+
+# Design & Development
+
+Tobias Schnier
+
+# Story & Writing
+
+Tobias Schnier
+
+# Music 
+
+All music was composed by Kevin MacLeod and is licensed under Creative Commons: By Attribution 4.0.
+
+"Gymnopedie No 3" — Kevin MacLeod (incompetech.com)
+"Exotics" — Kevin MacLeod (incompetech.com)
+"Almost New" — Kevin MacLeod (incompetech.com)
+"Comfortable Mystery 4" — Kevin MacLeod (incompetech.com)
+"Half Mystery" — Kevin MacLeod (incompetech.com)
+"Living Voyage" — Kevin MacLeod (incompetech.com)
+"Rising Game" — Kevin MacLeod (incompetech.com)
+"The Other Side of the Door" — Kevin MacLeod (incompetech.com)
+"Impact Prelude" — Kevin MacLeod (incompetech.com)
+"Constance" — Kevin MacLeod (incompetech.com)
+"I Can Feel it Coming" — Kevin MacLeod (incompetech.com)
+"Groove Grove" — Kevin MacLeod (incompetech.com)
+"The Complex" — Kevin MacLeod (incompetech.com)
+"Eternal Terminal" — Kevin MacLeod (incompetech.com)
+"Nightmare Machine" — Kevin MacLeod (incompetech.com)
+"Shadowlands 5 - Antechamber" — Kevin MacLeod (incompetech.com)
+"Enter the Maze" — Kevin MacLeod (incompetech.com)
+"Teller of the Tales" — Kevin MacLeod (incompetech.com)
+"Pippin the Hunchback" — Kevin MacLeod (incompetech.com)
+
+Licensed under Creative Commons: By Attribution 4.0
+https://creativecommons.org/licenses/by/4.0/
+
+# Playtesters
+
+Jojo81 for livestreaming and testing through development
+NEWS for many many hours of playtesting
+
+# Inspiration
+
+SkepticalMario 
+Mattias "The M" Gustafsson
+
+# Special Thanks
+
+The ThinkyGames.com Discord for very thoughtful discussions about the game
+You, for reaching the end

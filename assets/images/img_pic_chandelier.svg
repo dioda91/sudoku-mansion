@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#ffffff">
+<g transform="translate(0.00,6.50)">
+<circle cx="50" cy="14" r="3.5"/>
+    <rect x="48.5" y="16" width="3" height="14"/>
+    <path d="M18 42 Q50 30 82 42 Q50 52 18 42 Z"/>
+    <rect x="24" y="32" width="4" height="11"/>
+    <path d="M26 26 Q23 30 26 34 Q29 30 26 26 Z"/>
+    <rect x="48" y="30" width="4" height="13"/>
+    <path d="M50 23 Q47 28 50 32 Q53 28 50 23 Z"/>
+    <rect x="72" y="32" width="4" height="11"/>
+    <path d="M74 26 Q71 30 74 34 Q77 30 74 26 Z"/>
+    <rect x="30.5" y="48" width="3" height="14"/>
+    <circle cx="32" cy="65" r="4.5"/>
+    <rect x="48.5" y="50" width="3" height="18"/>
+    <circle cx="50" cy="71" r="5.5"/>
+    <rect x="66.5" y="48" width="3" height="14"/>
+    <circle cx="68" cy="65" r="4.5"/>
+</g>
+</svg>
