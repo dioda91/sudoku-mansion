@@ -195,3 +195,35 @@ html.dsh-mobile .mansion-svg {
 html.dsh-mobile .menu-overlay > * { zoom: .72; }
 html.dsh-mobile .dialog { zoom: .84; }
 html.dsh-mobile .dialog-backdrop > * { zoom: .84; }
+
+/* ============================================================
+   菜单 / 设置面板的尺寸：用游戏自己的 --menu-scale 变量
+   游戏的 CSS 里 .menu-card / .options-card 就是 zoom: var(--menu-scale, 1)，
+   而且 max-width/max-height 也按这个变量换算好了 —— 这才是正确的开关。
+   之前我用 font-size / 单独的 zoom 去硬压，方向就是错的。
+   ============================================================ */
+html.dsh-mobile { --menu-scale: .62 !important; }
+
+/* 顺带把所有我加过的字号/内边距硬改全部还回去，让 app 按自己的比例缩放 */
+html.dsh-mobile .menu-overlay > *,
+html.dsh-mobile .dialog-backdrop > *,
+html.dsh-mobile .dialog { zoom: var(--menu-scale) !important; }
+
+html.dsh-mobile .menu-item {
+  font-size: inherit !important;
+  padding: .75rem 1rem !important;
+  min-height: 0 !important;
+  border-radius: 8px !important;
+}
+html.dsh-mobile .menu-items { max-width: none !important; width: 100% !important; gap: .75rem !important; }
+html.dsh-mobile .options-tab { font-size: .85rem !important; padding: .55rem .5rem !important; }
+html.dsh-mobile .dialog-body,
+html.dsh-mobile .options-content { font-size: inherit !important; }
+html.dsh-mobile .options-display-grid,
+html.dsh-mobile .options-colors-grid,
+html.dsh-mobile .options-accessibility-extras {
+  grid-template-columns: 1fr 1fr !important;
+  column-gap: 1.5rem !important;
+}
+html.dsh-mobile .menu-overlay,
+html.dsh-mobile .options-overlay { padding: 5px !important; }
