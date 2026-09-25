@@ -1,0 +1,92 @@
+// mobile-ui.js —— 手机布局：左下角气泡按钮、横屏锁定（?safe=1 时不启用）
+(function () {
+  'use strict';
+  var root = document.documentElement;
+  if (!root.classList.contains('dsh-mobile')) return;
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text) n.textContent = text;
+    return n;
+  }
+
+  function goLandscape() {
+    var p = root.requestFullscreen ? root.requestFullscreen() : Promise.reject(new Error('no fullscreen'));
+    return Promise.resolve(p).then(function () {
+      if (screen.orientation && typeof screen.orientation.lock === 'function') return screen.orientation.lock('landscape');
+    }).catch(function () {});
+  }
+
+  // 把右侧原生标签页切到「背景故事」。标签条虽然在手机模式下被隐藏，但点击依然有效。
+  function selectLoreTab() {
+    try {
+      var bar = document.querySelector('app-right-panel > .tab-bar');
+      if (!bar) return;
+      var btns = bar.querySelectorAll('button');
+      var hit = null;
+      for (var i = 0; i < btns.length; i++) {
+        var t = (btns[i].textContent || '') + ' ' + (btns[i].getAttribute('aria-label') || '') + ' ' + (btns[i].title || '');
+        if (t.indexOf('背景故事') >= 0 || /lore/i.test(t)) { hit = btns[i]; break; }
+      }
+      if (hit) hit.click();
+    } catch (e) {}
+  }
+
+  function boot() {
+    if (document.getElementById('dsh-buttons')) return;
+    var bar = el('div'); bar.id = 'dsh-buttons';
+    var bRules, bStory;
+    function sync() {
+      if (bRules) bRules.classList.toggle('dsh-on', document.body.classList.contains('dsh-left'));
+      if (bStory) bStory.classList.toggle('dsh-on', document.body.classList.contains('dsh-info'));
+    }
+    function mk(label, cls, onClick) {
+      var b = el('button', '', label);
+      b.type = 'button';
+      b.addEventListener('click', function (e) {
+        e.preventDefault(); e.stopPropagation();
+        if (cls) {
+          var on = !document.body.classList.contains(cls);
+          document.body.classList.remove('dsh-left', 'dsh-info');
+          if (on) { document.body.classList.add(cls); }
+          sync();
+          if (on && onClick) onClick();
+        } else if (onClick) onClick();
+      });
+      bar.appendChild(b);
+      return b;
+    }
+    bRules = mk('规则', 'dsh-left');
+    bStory = mk('故事', 'dsh-info', selectLoreTab);
+    mk('横屏', null, goLandscape);
+    document.body.appendChild(bar);
+
+    // 点空白处关闭气泡；点气泡内部或按钮不关
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+      if (!t || !t.closest) return;
+      if (t.closest('#dsh-buttons')) return;
+      if (t.closest('app-left-column')) return;
+      if (t.closest('app-right-panel > .tab-content')) return;
+      if (!document.body.classList.contains('dsh-left') && !document.body.classList.contains('dsh-info')) return;
+      document.body.classList.remove('dsh-left', 'dsh-info');
+      sync();
+    }, true);
+
+    var rot = el('div'); rot.id = 'dsh-rotate';
+    var box = el('div', 'box');
+    box.appendChild(el('p', '', '请把手机横过来'));
+    var btn = el('button', '', '全屏并锁定横屏');
+    btn.addEventListener('click', function (e) { e.stopPropagation(); goLandscape(); });
+    box.appendChild(btn); rot.appendChild(box); document.body.appendChild(rot);
+
+    window.addEventListener('touchstart', function once() {
+      window.removeEventListener('touchstart', once, true);
+      if (window.matchMedia('(orientation: portrait)').matches) goLandscape();
+    }, true);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
