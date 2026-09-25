@@ -137,3 +137,42 @@ html.dsh-mobile .menu-overlay { padding: .6rem !important; }
 html.dsh-mobile .menu-panel,
 html.dsh-mobile .menu-items { width: 100% !important; max-width: min(94vw, 460px) !important; }
 html.dsh-mobile .menu-item { font-size: .95rem !important; padding: .5rem .6rem !important; }
+
+/* ================= 顶部工具条：庄园那一行放宽一点 ================= */
+html.dsh-mobile .room-shell,
+html.dsh-mobile .mansion-shell { --frame-top: 6.2% !important; }
+html.dsh-mobile .toolbar {
+  --bar-h: min(2.5rem, 80cqh) !important;
+  padding: 0 .7rem !important;
+  gap: .5rem !important;
+}
+html.dsh-mobile .back-btn,
+html.dsh-mobile .menu-btn {
+  min-height: 26px !important;
+  padding: 3px 12px !important;
+  font-size: 13px !important;
+}
+html.dsh-mobile .back-btn { min-width: 78px !important; }
+html.dsh-mobile .room-title,
+html.dsh-mobile .boss-title,
+html.dsh-mobile .title { font-size: 13px !important; }
+
+/* ================= 游戏内菜单：用 px 固定，不跟着根字号放大 ================= */
+html.dsh-mobile .menu-overlay { padding: 6px !important; }
+html.dsh-mobile .menu-items {
+  max-width: min(92vw, 420px) !important;
+  width: 100% !important;
+  gap: 6px !important;
+}
+html.dsh-mobile .menu-item {
+  font-size: 15px !important;
+  padding: 8px 12px !important;
+  min-height: 34px !important;
+  border-radius: 7px !important;
+}
+
+/* ================= 设置面板再压一档 ================= */
+html.dsh-mobile .dialog { width: min(94vw, 640px) !important; }
+html.dsh-mobile .dialog-body { font-size: 13px !important; }
+html.dsh-mobile .options-content { font-size: 13px !important; }
+html.dsh-mobile .options-tab { font-size: 12px !important; padding: .3rem .25rem !important; }

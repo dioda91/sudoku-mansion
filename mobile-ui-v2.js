@@ -113,6 +113,102 @@
     }, true);
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
-  else boot();
+// ================= 庄园视图手势：单指点击=选中，双指=拖动+缩放 =================
+  var CANVAS = '.canvas-wrap';
+  var SYNTH = false;
+  var touchPts = {};
+  var gest = null;
+
+  function inCanvas(t) { return !!(t && t.closest && t.closest(CANVAS)); }
+  function inMansion() { return !!document.querySelector('app-mansion'); }
+  function midOf(t) { return { x: (t[0].clientX + t[1].clientX) / 2, y: (t[0].clientY + t[1].clientY) / 2 }; }
+  function distOf(t) { var dx = t[0].clientX - t[1].clientX, dy = t[0].clientY - t[1].clientY; return Math.sqrt(dx * dx + dy * dy); }
+
+  function fire(el, type, x, y) {
+    SYNTH = true;
+    try {
+      el.dispatchEvent(new PointerEvent(type, {
+        bubbles: true, cancelable: true, composed: true,
+        clientX: x, clientY: y, pointerId: 999, pointerType: 'mouse',
+        isPrimary: true, button: 0, buttons: type === 'pointerup' ? 0 : 1
+      }));
+    } catch (e) {}
+    SYNTH = false;
+  }
+
+  function touchPointerDown(e) {
+    if (SYNTH || !inMansion() || !inCanvas(e.target) || e.pointerType !== 'touch') return;
+    touchPts[e.pointerId] = 1;
+    if (Object.keys(touchPts).length < 2) e.stopPropagation();
+  }
+  function touchPointerUp(e) { delete touchPts[e.pointerId]; }
+
+  function onTouchStart(e) {
+    if (!inMansion() || !inCanvas(e.target)) return;
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      var el = document.querySelector(CANVAS);
+      gest = { dist: distOf(e.touches) };
+      if (el) fire(el, 'pointerdown', midOf(e.touches).x, midOf(e.touches).y);
+    }
+  }
+
+  function onTouchMove(e) {
+    if (!inMansion() || !inCanvas(e.target)) return;
+    if (e.touches.length === 1 && !gest) { e.preventDefault(); return; }
+    if (!gest || e.touches.length !== 2) return;
+    e.preventDefault();
+    var el = document.querySelector(CANVAS);
+    if (!el) return;
+    var m = midOf(e.touches), d = distOf(e.touches);
+    fire(el, 'pointermove', m.x, m.y);
+    if (gest.dist > 4 && d > 4) {
+      var f = d / gest.dist;
+      if (Math.abs(1 - f) > 0.008) {
+        try {
+          el.dispatchEvent(new WheelEvent('wheel', {
+            bubbles: true, cancelable: true, deltaY: -Math.log(f) * 140, deltaMode: 0,
+            clientX: m.x, clientY: m.y
+          }));
+        } catch (err) {}
+      }
+    }
+    gest.dist = d;
+  }
+
+  function onTouchEnd(e) {
+    if (!gest) return;
+    if (e.touches.length < 2) {
+      var el = document.querySelector(CANVAS);
+      if (el) fire(el, 'pointerup', 0, 0);
+      gest = null;
+    }
+  }
+
+  function installGestures() {
+    document.addEventListener('pointerdown', touchPointerDown, true);
+    document.addEventListener('pointerup', touchPointerUp, true);
+    document.addEventListener('pointercancel', touchPointerUp, true);
+    document.addEventListener('touchstart', onTouchStart, { capture: true, passive: false });
+    document.addEventListener('touchmove', onTouchMove, { capture: true, passive: false });
+    document.addEventListener('touchend', onTouchEnd, { capture: true, passive: false });
+    document.addEventListener('touchcancel', onTouchEnd, { capture: true, passive: false });
+  }
+
+  // 调试用：window.__dshTest.pan(dx,dy) 可以直接试拖动
+  window.__dshTest = {
+    pan: function (dx, dy) {
+      var el = document.querySelector(CANVAS);
+      if (!el) return 'no-canvas';
+      fire(el, 'pointerdown', 100, 100);
+      fire(el, 'pointermove', 100 + dx, 100 + dy);
+      fire(el, 'pointerup', 100 + dx, 100 + dy);
+      return 'ok';
+    }
+  };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', onReady);
+  else onReady();
+
+  function onReady() { boot(); installGestures(); }
 })();
